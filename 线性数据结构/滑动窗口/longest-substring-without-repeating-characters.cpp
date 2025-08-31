@@ -7,7 +7,7 @@
 // 该题的易错点：s由英文字母、数字、符号和空格组成 —— char类型的ascii码范围从0~255，所以开的计数空间要大一些
 #include<bits/stdc++.h>
 using namespace std;
-class Solution {
+class Solution1 {
 public:
     int lengthOfLongestSubstring(string s) {
         vector<int> count(255, 0);
@@ -25,11 +25,26 @@ public:
         return ans;
     }
 };
+class Solution2
+{
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> last(255, -1);  // 初始化为-1，该数组记录此时r指向字符上次出现的位置
+        int l = 0, r = 0, ans = 0;
+        for (; r < s.size(); r++)
+        {
+            l = max(l, last[s[r]] + 1);  // 当前的左边界，要么是原本的边界，要么是缩小到当前r所指字符上次出现位置的右边一位
+            ans = max(ans, r - l + 1);   // 更新答案
+            last[s[r]] = r;                   // 更新字符上次出现位置
 
+        }
+        return ans;
+    }
+};
 int main()
 {
     string s = " ";
-    Solution sol;
+    Solution2 sol;
     cout << sol.lengthOfLongestSubstring(s);
     return 0;
 }
