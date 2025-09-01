@@ -10,12 +10,12 @@ using namespace std;
 class Solution1 {
 public:
     int lengthOfLongestSubstring(string s) {
-        vector<int> count(255, 0);
+        vector<bool> count(255, 0);
         int l = 0, r = 0, ans = 0;
         for (; r < s.size(); r++)
         {
             ans = max(ans, r - l + 1);
-            count[s[r]]++;
+            count[s[r]] = 1;
             if (r == s.size() - 1) break;
             while (l <= r && count[s[r + 1]] == 1) // 如果即将纳入的字母已经存在于窗口内
             {
