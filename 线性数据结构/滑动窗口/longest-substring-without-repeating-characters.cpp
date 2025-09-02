@@ -1,7 +1,7 @@
 //
 // Created by 12472 on 25-8-31.
 //
-// 力扣 第3题 无重复字符的最长子串
+// 力扣3 无重复字符的最长子串
 // 给定一个字符串s，找出其中不含有重复字符的最长子串的长度
 // https://leetcode.cn/problems/longest-substring-without-repeating-characters/
 // 该题的易错点：s由英文字母、数字、符号和空格组成 —— char类型的ascii码范围从0~255，所以开的计数空间要大一些
