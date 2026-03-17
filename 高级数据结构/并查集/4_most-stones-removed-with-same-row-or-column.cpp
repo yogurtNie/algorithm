@@ -62,11 +62,74 @@ public:
         return n - set;
     }
 };
-
+// 15ms
+class Solution2 {
+public:
+    int parent[N];
+    int set;
+    void init(int n)
+    {
+        set = n;
+        for(int i = 0; i < n; i++)
+        {
+            parent[i] = i;
+        }
+    }
+    int find(int x)
+    {
+        return parent[x] == x ? x : parent[x] = find(parent[x]);
+    }
+    bool IsSameSet(int a, int b)
+    {
+        return find(a) == find(b);
+    }
+    void unite(int x, int y)
+    {
+        int pa = find(x), pb = find(y);
+        if (pa != pb)
+        {
+            parent[pa] = pb;
+            set--;
+        }
+    }
+    int removeStones(vector<vector<int>>& stones) {
+        int n = stones.size();
+        init(n);
+        map<int, int> col;  // (col, index)
+        map<int, int> row;  // (row, index)
+        bool flag = true;
+        // 做优化：只遍历一次，用map来记录行和列
+        for (int i = 0; i < n; i++)
+        {
+            flag = true;
+            if (col.find(stones[i][0]) != col.end())
+            {
+                int index = col[stones[i][0]];
+                if (!IsSameSet(index, i))
+                {
+                    unite(i, index);
+                    flag = false;
+                }
+            }
+            if (flag) col[stones[i][0]] = i;
+            if (row.find(stones[i][1]) != row.end())
+            {
+                int index = row[stones[i][1]];
+                if (!IsSameSet(index, i))
+                {
+                    unite(i, index);
+                    continue;
+                }
+            }
+            row[stones[i][1]] = i;
+        }
+        return n - set;
+    }
+};
 int main()
 {
     vector<vector<int>> stones = {{0,0},{0,1},{1,0},{1,2},{2,1},{2,2}};
-    Solution sol;
+    Solution2 sol;
     cout << sol.removeStones(stones) << endl;
     return 0;
 }
