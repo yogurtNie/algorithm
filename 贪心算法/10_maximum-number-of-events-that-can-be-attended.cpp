@@ -24,8 +24,13 @@ public:
     int maxEvents(vector<vector<int>>& events) {
         priority_queue<int, vector<int>, greater<int>> q;   // 小根堆
         sort(events.begin(), events.end(), [](vector<int>& a, vector<int>& b)->bool{return a[0] < b[0];});
-        int days = 1, i = 0, ans = 0;
-        while (i < events.size())
+        int days = events[0][0], i = 0, ans = 0;
+        int Max = events[0][1];
+        for (int j = 0; j < events.size(); ++j)
+        {
+            Max = max(Max, events[j][1]);
+        }
+        for (; days <= Max; ++days)
         {
             while (i < events.size() && events[i][0] <= days)
             {
@@ -33,9 +38,12 @@ public:
                 i++;
             }
             while (!q.empty() && q.top() < days) q.pop();
-            days = q.top();
-            q.pop();
-            ans++;
+            if (!q.empty())
+            {
+                // days = q.top();
+                q.pop();
+                ans++;
+            }
         }
         return ans;
 
