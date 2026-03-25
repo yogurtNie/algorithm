@@ -48,6 +48,28 @@ public:
         return ans/4;
 
     }
+    int split(vector<int>& nums, int n)
+    {
+        int oddSize = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (nums[i] % 2 == 1) swap(nums[i], nums[oddSize++]);
+        }
+        return oddSize;
+    }
+    long long makeSimilar2(vector<int>& nums, vector<int>& target)
+    {
+        int nums_odd = split(nums, nums.size());
+        int target_odd = split(target, target.size());
+        sort(nums.begin(), nums.begin() + nums_odd);
+        sort(target.begin(), target.begin() + target_odd);
+        sort(nums.begin() + nums_odd, nums.end());
+        sort(target.begin() + target_odd, target.end());
+        long long ans = 0;
+        for (int i = 0; i < nums.size(); i++)
+            ans += abs(nums[i] - target[i]);
+        return ans/4;
+    }
 };
 
 int main()
@@ -55,6 +77,6 @@ int main()
     vector<int> nums = {8,12,6};
     vector<int> target = {2,14,10};
     Solution sol;
-    cout << sol.makeSimilar(nums, target) << endl;
+    cout << sol.makeSimilar2(nums, target) << endl;
     return 0;
 }
